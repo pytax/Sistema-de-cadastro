@@ -17,7 +17,7 @@ class Data_base:
     def create_table_company(self):
         cursor = self.connection.cursor()
         cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Empresa(
+            CREATE TABLE IF NOT EXISTS Empresas(
 
             CNPJ TEXT,
             NOME TEXT,
@@ -49,7 +49,8 @@ class Data_base:
 
         try:
             cursor.execute(f"""INSERT INTO Empresas {campos_tabela}
-            VALUES({qntd}),""", fullDataSet)
+            VALUES({qntd})""", fullDataSet)
+            self.connection.commit()
             return("OK")
 
         except:
@@ -64,13 +65,13 @@ class Data_base:
         except:
             pass
 
-    def delete_companie(self, id):
+    def delete_companies(self, id):
 
         try:
             cursor = self.connection.cursor()
             cursor.execute(f"DELETE FROM Empresas WHERE CNPJ = '{id}' ")
 
-            self.conection.commit()
+            self.connection.commit()
 
             return "Cadastro de empresa excluido com sucesso!"
 
@@ -92,8 +93,8 @@ class Data_base:
             UF = '{fullDataSet[7]}',
             CEP = '{fullDataSet[8]}',
             TELEFONE = '{fullDataSet[9]}',
-            EMAIL = '{fullDataSet[10]}',
+            EMAIL = '{fullDataSet[10]}'
 
             WHERE CNPJ = '{fullDataSet[0]}'""")
 
-        self.conection.commit()
+        self.connection.commit()
